@@ -1,0 +1,575 @@
+﻿
+@{
+    ViewBag.Title = "Plant_Wise_Line_Wise";
+    Layout = "~/Views/Shared/_Layout_New.cshtml";
+}
+@section scripts{
+    @System.Web.Optimization.Scripts.Render("~/bundles/Plant_Wise_Line_Wise")
+    @System.Web.Optimization.Styles.Render("~/bundles/AWLccsSlider")
+    @System.Web.Optimization.Scripts.Render("~/bundles/AWLJSlider")
+    @System.Web.Optimization.Scripts.Render("~/bundles/AWL_Dashboardjs")
+    @System.Web.Optimization.Scripts.Render("~/bundles/AWL_Dashboard_dlmenujs")
+}
+<style>
+    .chart-img {
+    min-height: 270px;
+}
+    /*.div_cchart_table .table-bordered td {
+        text-align:right !important;
+    }*/
+</style>
+<div class="middle-main" ng-controller="Plant_Wise_Line_WiseController" ng-init="initLoadData()" ng-cloak id="dvChangeFilter">
+    <div class="show-menu"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></div>
+    <div class="row pad3">
+        <div class="col-md-12 text-right">
+            <div class="download-pdf">
+                <div class="top-menu-btn-show"><i class="fa fa-arrows-alt hvr-push"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="production-section" style="padding-top:10px">
+        <div class="row">
+
+            <div class="col-md-6 col-sm-6 col-xs-6 full-width-col chartPosition" id="zoom2">
+                <div class="chart-box">
+                    <div class="chart-header">
+                        <div class="chart-header-left">Line Utilization (%)</div>
+                        <div class="chart-header-right">
+                            <span><img class="download-file2" src="~/AWLContentFiles/images/settings.png" title="Settings" /></span>
+                            <div class="pdf-file2">
+                                <div id="dl-menu1" class="dl-menuwrapper drop_plantLanding">
+                                    <i class="dx-icon dx-icon-export dl-trigger hvr-push" title="Export" aria-hidden="true"></i>
+                                    <ul class="dl-menu">
+                                        <li><a href="#" chartname="Line_Utilization" class="clsExportChart">PDF</a></li>
+                                        <li><a href="#" chartname="Line_Utilization" class="clsExportChart">PNG</a></li>
+                                        <li><a href="#" chartname="Line_Utilization" class="clsExportChart">JPEG</a></li>
+                                    </ul>
+                                </div>
+                                <i class="fa fa-expand hvr-push" data-val="zoom" title="Zoom in/out" aria-hidden="true"></i>
+                                <div class="drop-close2"><i class="fa fa-times hvr-push" title="Close settings" aria-hidden="true"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-img padchange">
+                        <div id="chartid2" data-charttype="bar" data-chrtheight="250"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6 full-width-col chartPosition" id="zoom5">
+                <div class="chart-box" style="height:100%">
+                    <div class="chart-header">
+                        <div class="chart-header-left">Line Utilization Calculation {{mvarRefinary_Code}}@*{{mvarRefinary_Code}} : {{mUtilisationTotal}} %*@</div>
+                        <div class="chart-header-right">
+                            <span><img class="download-file" src="~/AWLContentFiles/images/settings.png" title="Settings" /></span>
+                            <div class="pdf-file">
+                                <div id="dl-menu" class="dl-menuwrapper drop_plantLanding">
+                                    <i class="dx-icon dx-icon-export dl-trigger hvr-push" title="Export" aria-hidden="true"></i>
+                                    <ul class="dl-menu">
+                                        <li><a href="#" chartname="Production" class="clsExportChart">PDF</a></li>
+                                        <li><a href="#" chartname="Production" class="clsExportChart">PNG</a></li>
+                                        <li><a href="#" chartname="Production" class="clsExportChart">JPEG</a></li>
+                                    </ul>
+                                </div>
+                                <i class="fa fa-expand hvr-push" data-val="zoom" title="Zoom in/out" aria-hidden="true"></i>
+                                <div class="drop-close"><i class="fa fa-times hvr-push" title="Close settings" aria-hidden="true"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-img table_container" style="padding:10px 13px 20px;">
+                        <div class="dwrapper" id="div_Utilizationchart" data-charttype="grid" data-chrtheight="250" style="overflow-x:auto;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="production-section" style="padding-top:10px">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6 full-width-col chartPosition" id="zoom1">
+                <div class="chart-box">
+                    <div class="chart-header">
+                        <div class="chart-header-left">Production (MT) {{mvarRefinary_Code}}</div>
+                        <div class="chart-header-right">
+                            <span><img class="download-file" src="~/AWLContentFiles/images/settings.png" title="Settings" /></span>
+                            <div class="pdf-file">
+                                <div id="dl-menu" class="dl-menuwrapper drop_plantLanding">
+                                    <i class="dx-icon dx-icon-export dl-trigger hvr-push" title="Export" aria-hidden="true"></i>
+                                    <ul class="dl-menu">
+                                        <li><a href="#" chartname="Production" class="clsExportChart">PDF</a></li>
+                                        <li><a href="#" chartname="Production" class="clsExportChart">PNG</a></li>
+                                        <li><a href="#" chartname="Production" class="clsExportChart">JPEG</a></li>
+                                    </ul>
+                                </div>
+                                <i class="fa fa-expand hvr-push" data-val="zoom" title="Zoom in/out" aria-hidden="true"></i>
+                                <div class="drop-close"><i class="fa fa-times hvr-push" title="Close settings" aria-hidden="true"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-img padchange">
+                        <div id="chartid1" data-charttype="bar" data-chrtheight="250"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6 full-width-col chartPosition" id="zoom4">
+                <div class="chart-box by-product">
+                    <div class="chart-header">
+                        <div class="chart-header-left" id="hdrPackTypeWise">Utility Consumption (MT) {{mvarRefinary_Code}}</div>
+                        <div class="chart-header-right">
+                            <span><img class="download-file6" src="~/AWLContentFiles/images/settings.png" title="Settings" /></span>
+                            <div class="pdf-file6">
+                                <div id="dl-menu5" class="dl-menuwrapper drop_plantLanding">
+                                    <i class="dx-icon dx-icon-export dl-trigger hvr-push" title="Export" aria-hidden="true"></i>
+                                    <ul class="dl-menu">
+                                        <li><a href="#" chartname="Pack_Type_Wise" class="clsExportutltyChart">PDF</a></li>
+                                        <li><a href="#" chartname="Pack_Type_Wise" class="clsExportutltyChart">PNG</a></li>
+                                        <li><a href="#" chartname="Pack_Type_Wise" class="clsExportutltyChart">JPEG</a></li>
+                                    </ul>
+                                </div>
+                                <i class="fa fa-expand hvr-push" data-val="zoom" title="Zoom in/out" aria-hidden="true"></i>
+                                <div class="drop-close6"><i class="fa fa-times hvr-push" title="Close settings" aria-hidden="true"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-img">
+                        <div class="row">
+                            <div class="col-lg-12 utility" id="demoChemical" style="height: 236px;">
+                                <div class="bx-wrapper wrapper-margin" id="bxwrapperid1">
+                                    <ul id="ulutchart" data-charttype="gauge" data-chrtheight="250"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="production-section">
+        <div class="row">
+            <div class="col-md-12 chartPosition" id="zoom3">
+                <div class="chart-box" style="height:100%">
+                    <div class="chart-header">
+                        <div class="chart-header-left">Material Consumption {{mvarRefinary_Code}} </div>
+                        <div class="chart-header-right">
+                            <span><img class="download-file4" src="~/AWLContentFiles/images/settings.png" title="Settings" /></span>
+                            <div class="pdf-file4">
+                                <div id="dl-menu3" class="dl-menuwrapper drop_plantLanding">
+                                    <i class="dx-icon dx-icon-export dl-trigger hvr-push" title="Export" aria-hidden="true"></i>
+                                    <ul class="dl-menu">
+                                        <li><a href="#" chartname="Product_Wise_Intend_VS_Actual" class="clsExportChart">PDF</a></li>
+                                        <li><a href="#" chartname="Product_Wise_Intend_VS_Actual" class="clsExportChart">PNG</a></li>
+                                        <li><a href="#" chartname="Product_Wise_Intend_VS_Actual" class="clsExportChart">JPEG</a></li>
+                                    </ul>
+                                </div>
+                                <i class="fa fa-expand hvr-push" data-val="zoom" title="Zoom in/out" aria-hidden="true"></i>
+                                <div class="drop-close4"><i class="fa fa-times hvr-push" title="Close settings" aria-hidden="true"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-img table_container" style="padding:20px 13px 20px;">
+                        @*<label><b>Total {{varBrand_ID}} Packed : {{varPackTypeVal}}</b></label>*@
+
+                        <div class="dwrapper div_cchart_table" id="div_cchart" data-charttype="grid" data-chrtheight="250" style="overflow-x:auto;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" value="" id="hdnRefinaryCode" />
+    <img src="~/AWLContentFiles/images/ScrollTop1.png" class="scrollToTop hvr-push" draggable="true" id="scrollIcon" style="display: none;" aria-hidden="true" onclick="scrollPage(this);" />
+</div>
+<script>
+
+    function scrollPage(btn) {
+        $('html, body').animate({ scrollTop: 0 }, 1000);
+        $(btn).hide();
+        return false;
+    }
+
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 150) {
+            $('.scrollToTop').fadeIn();
+        } else {
+            $('.scrollToTop').fadeOut();
+        }
+    });
+    $(function () {
+        $('#dl-menu1,#dl-menu2,#dl-menu3,#dl-menu,#dl-menu5').dlmenu();
+
+        var element, chrtID, chrtType, chrtHeight;
+        $(document).on('webkitfullscreenchange mozfullscreenchange MSFullscreenChange fullscreenchange', function (e) {
+            if (e.type == 'mozfullscreenchange') {
+                if (element.style.maxWidth != "100%") {
+                    element.style.maxWidth = "100%";
+                    element.style.maxHeight = "100%";
+                    element.style.minHeight = "100%";
+                    element.style.background = "white";
+                    if (chrtType == 'pie') {
+                        $("#" + chrtID).dxPieChart({ size: { height: ($(window).height() - 100) } }).dxPieChart("instance");
+                    } else if (chrtType == 'bar') {
+                        $("#" + chrtID).dxChart({ size: { height: ($(window).height() - 100) } }).dxChart("instance");
+                    }
+                } else {
+                    element.style.maxWidth = "";
+                    element.style.maxHeight = "";
+                    element.style.minHeight = "";
+                    element.style.background = "";
+                    if (chrtType == 'pie') {
+                        $("#" + chrtID).dxPieChart({ size: { height: chrtHeight } }).dxPieChart("instance");
+                    } else if (chrtType == 'bar') {
+                        $("#" + chrtID).dxChart({ size: { height: chrtHeight } }).dxChart("instance");
+                    }
+
+                    $(element).find('.fa-compress').attr("class", "fa fa-expand");
+                }
+            } else {
+                if (element.style.maxWidth == "100%") {
+                    element.style.maxWidth = "";
+                    element.style.maxHeight = ""
+                    element.style.minHeight = ""
+
+                    if (chrtType == 'pie') {
+                        $("#" + chrtID).dxPieChart({ size: { height: chrtHeight } }).dxPieChart("instance");
+                    } else if (chrtType == 'bar') {
+                        $("#" + chrtID).dxChart({ size: { height: chrtHeight } }).dxChart("instance");
+                    }
+                    $(element).find('.fa-compress').attr("class", "fa fa-expand");
+                    $(element).find('#row1').attr("class", "row");
+                    $(element).find('#row2').attr("class", "row");
+                } else {
+                    element.style.maxWidth = "100%";
+                    element.style.maxHeight = "100%";
+                    element.style.minHeight = "100%";
+                    element.style.width = "100%";
+                    $(element).find('#row1').attr("class", "row1");
+                    $(element).find('#row2').attr("class", "row1");
+                    if (chrtType == 'pie') {
+                        $("#" + chrtID).dxPieChart({ size: { height: ($(window).height() - 100) } }).dxPieChart("instance");
+                    } else if (chrtType == 'bar') {
+                        $("#" + chrtID).dxChart({ size: { height: ($(window).height() - 100) } }).dxChart("instance");
+                    }
+                }
+            }
+        });
+
+        $('#FullscrnModl').on('hidden.bs.modal', function (e) {
+            if (chrtType == 'pie') {
+                $("#" + chrtID).dxPieChart({ size: { height: chrtHeight } }).dxPieChart("instance");
+            } else if (chrtType == 'bar') {
+                $("#" + chrtID).dxChart({ size: { height: chrtHeight } }).dxChart("instance");
+            }
+            else {
+                $('#fullChrt').html('');
+            }
+        });
+
+        $(document).delegate('.fa-compress', 'click', function () {
+            if (navigator.userAgent.toLowerCase().match(/(ipad|iphone|ipod)/) != null || /(android)/i.test(navigator.userAgent)) {
+                $('#fullChrt').html('');
+                $('#FullscrnModl').modal('toggle');
+            } else {
+                if (document.cancelFullScreen) {
+                    document.cancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitCancelFullScreen) {
+                    document.webkitCancelFullScreen();
+                }
+                $(this).attr("class", "fa fa-expand hvr-push");
+            }
+        });
+
+        $(document).delegate(".fa-expand", 'click', function () {
+
+            element = document.getElementById($(this).parents('div.chartPosition').attr('id'));
+            chrtID = $(this).parents('.chart-box').find('[data-charttype]').attr('id');
+            chrtType = $(this).parents('.chart-box').find('[data-charttype]').attr('data-charttype');
+            chrtHeight = $(this).parents('.chart-box').find('[data-charttype]').attr('data-chrtheight');
+
+            if (navigator.userAgent.toLowerCase().match(/(ipad|iphone|ipod)/) != null || /(android)/i.test(navigator.userAgent)) {
+                $('#FullscrnModl').modal('show');
+                var seriestmp;
+                if (chrtType == 'bar') {
+                    seriestmp = $('#' + chrtID).dxChart('instance').option();
+                }
+                $('#fullChrt').html($(this).parents('div.chartPosition').html());
+                if (chrtType == 'gauge') {
+                    if (chrtID == 'chartutlty0') {
+                        $("#fullChrt").find("#ulutchart").html($("#fullChrt").find('#ulutchart').html());
+                    } else {
+                        $("#fullChrt").find("#ulchart").html($("#fullChrt").find('#ulchart').html());
+                    }
+                    $("#fullChrt").find(".bx-has-pager").remove();
+                    $('#fullChrt').find('.bxslider').bxSlider({
+                        mode: 'horizontal',
+                        moveSlides: 1,
+                        slideMargin: 70,
+                        infiniteLoop: false,
+                        slideWidth: 250,
+                        minSlides: 2,
+                        maxSlides: 2,
+                        speed: 500,
+                    });
+                    $("#fullChrt").find(".bx-prev").css('left', '-10px');
+                    $("#fullChrt").find(".bx-next").css('right', '-12px');
+                }
+                else {
+                    $("#fullChrt").find("#" + chrtID).html('');
+                }
+                $('#fullChrt').height($(window).height() - 115);
+
+                $('#fullChrt').find('.fa-expand').parents('div.chart-header-right').html('<i class="fa fa-compress hvr-push" style="color: #fff;" data-val="zoom" title="Zoom in/out" aria-hidden="true"></i>')
+                if (chrtType == 'bar') {
+                    seriestmp.size.height = ($(window).height() - 150);
+                    $("#fullChrt").find("#" + chrtID).dxChart(seriestmp).dxChart("instance");
+                } else if (chrtType == 'grid') {
+                    if (chrtID == 'div_uchart') {
+                        angular.element('#dvChangeFilter').scope().GenerateScrollableGrid($(window).height() - 180, 'utchart');
+                    } else {
+                        angular.element('#dvChangeFilter').scope().GenerateScrollableGrid($(window).height() - 180, 'ctchart');
+                    }
+                }
+            } else {
+                $(this).attr("class", "fa fa-compress hvr-push");
+                if (element.requestFullScreen) {
+                    element.requestFullScreen();
+                }
+                else if (element.msRequestFullscreen) {
+                    element.msRequestFullscreen();
+                }
+                else if (element.mozRequestFullScreen) {
+                    element.mozRequestFullScreen();
+                } else if (element.webkitRequestFullScreen) {
+                    element.webkitRequestFullScreen();
+                }
+            }
+        });
+
+    });
+
+    $(function () {
+
+        setTimeout(function () {
+            if ($("#hdnType").val() == "Auto".toLowerCase()) {
+                $('.login_footer').empty();
+                $('.login_footer').css('background', '#E9F2FB');
+                $('.navbar-inverse').attr('style', 'background: none; border: none;');
+                $('.navbar-header').attr('style', 'height: 0px!important; background: none!important; visibility: hidden;');
+                $('#ulnav').css('display', 'none');
+                $('.side-nav').css('top', '0');
+                $('body').attr('style', 'margin-top:0px');
+                $("#page-wrapper").css("min-height", ($(window).height() + 72));
+            }
+        }, 500);
+
+        $('#plantList').delegate("li input", 'change', function () {
+            angular.element('#dvChangeFilter').scope().fileronChange($(this).parents('li').attr('data-id'), '');
+        });
+        $('ul#BrandList').delegate("li label input", 'change', function () {
+            angular.element('#dvChangeFilter').scope().fileronChange($('ul#plantList').find('li input:checked').parents('li').attr('data-id'), $(this).parents('label').attr('data-productname'));
+        });
+        $('#cycleList').delegate("li input", 'change', function () {
+            var action = $(this).parents('li').attr('data-id');
+            $('.cyclePanl').attr('class', 'box mtd highlightpnl');
+            $('#' + action).attr("class", "box mtd highlightpnl cyclePanl");
+            localStorage.setItem('varCycle', action);
+            $('#liBrcmnCycle').text($(this).parents('li').attr('data-cycle'));
+            var cycle = angular.element('#wrapper').scope().GetScopeMonthDetails(action);
+            $('#liBrcmnCycle').text(cycle);
+            angular.element('#wrapper').scope().mBrcmnCycleName = action.toUpperCase();
+            angular.element('#dvChangeFilter').scope().USP_Get_Yearly_QuarterNo('click');
+        });
+
+        var load = document.getElementById("loadspinner");
+        var spin = document.getElementById("loadspin");
+        showload = function () {
+            load.style.display = "block";
+            spin.style.display = "block";
+        },
+
+     hideload = function () {
+         load.style.display = "none";
+         spin.style.display = "none";
+     };
+
+        $("#export").click(function () {
+
+            getCanvas().then(function (canvas) {
+                $('.tempHide').show();
+                $('.screenShotTempCanvas').remove();
+                var img = canvas.toDataURL("image/png")
+
+                doc = new jsPDF({});
+
+                var width = img.width;
+                var height = img.clientHeight;
+
+                doc.addImage(img, 'PNG', 10, 10, 195, 120);
+                doc.save('Plant_wise_Line_wise_' + $('#liBrcmnPlant').html() + "_" + $('#liBrcmnProduct').html() + "_" + $('#liBrcmnCycle').html() + '.pdf');
+                hideload();
+            });
+        });
+
+        function getCanvas() {
+
+            showload();
+            $(window).scrollTop(0);
+            $(".show-menu").css("display", "none");
+            var svgElements = $('#dvChangeFilter').find('svg');
+            svgElements.each(function () {
+                var canvas, xml;
+                $.each($(this).find('[style*=em]'), function (index, el) {
+                    $(this).css('font-size', getStyle(el, 'font-size'));
+                });
+
+                canvas = document.createElement("canvas");
+                canvas.className = "screenShotTempCanvas";
+                xml = (new XMLSerializer()).serializeToString(this);
+                xml = xml.replace(/xmlns=\"http:\/\/www\.w3\.org\/2000\/svg\"/, '');
+                canvg(canvas, xml);
+                $(canvas).insertAfter(this);
+
+                $(this).attr('class', 'tempHide');
+                $(this).hide();
+            });
+
+            $('#export,.fa-file-text').hide();
+            var r = html2canvas($('#dvChangeFilter'), {
+                imageTimeout: 0,
+                removeContainer: true
+            });
+            $('#export,.fa-file-text').show();
+            $(".show-menu").css("display", "block");
+            return r;
+        }
+
+        $('.clsExportChart').click(function () {
+            showload();
+            var chartClass = $(this).parents('div.chart-box')
+            var Dtype = $(this).html();
+            var flg = $(this).attr('chartname');
+            var ChartName = flg + '_' + $('#liBrcmnPlant').html() + '_' + $('#liBrcmnProduct').html() + "_" + $('#liBrcmnCycle').html();
+            getCanvasfromClass(chartClass).then(function (canvas) {
+                $('.tempHide').show();
+                $('.screenShotTempCanvas').remove();
+                var img = null;
+                if (Dtype == 'PDF') {
+                    img = canvas.toDataURL("image/png")
+                    doc = new jsPDF({});
+                    doc.addImage(img, 'PNG', 10, 10, 195, 70);
+                    doc.save((ChartName != undefined ? ChartName : 'Download') + '.pdf');
+                    hideload();
+                    return;
+                } else if (Dtype == 'PNG') {
+                    img = canvas.toDataURL("image/png")
+                    hideload();
+                } else if (Dtype == 'JPEG') {
+                    img = canvas.toDataURL("image/jpeg")
+                    hideload();
+                }
+
+                var link = document.createElement('a');
+                if (typeof link.download === 'string') {
+                    document.body.appendChild(link); // Firefox requires the link to be in the body
+                    link.download = (ChartName != undefined ? ChartName : 'Download');
+                    link.href = img;
+                    link.click();
+                    document.body.removeChild(link); // remove the link when done
+                    hideload();
+                }
+            });
+
+        });
+
+        $('.clsExportutltyChart').click(function () {
+            showload();
+            var chartClass = $(this).parents('div.chart-box')
+            var Dtype = $(this).html();
+            var flg = $(this).attr('chartname');
+            var ChartName = flg + '_' + $('#liBrcmnPlant').html() + '_' + $('#liBrcmnProduct').html() + "_" + $('#liBrcmnCycle').html();
+            getCanvasfromClass(chartClass).then(function (canvas) {
+                $('.tempHide').show();
+                $('.screenShotTempCanvas').remove();
+                var img = null;
+                if (Dtype == 'PDF') {
+                    img = canvas.toDataURL("image/png")
+                    doc = new jsPDF({});
+                    doc.addImage(img, 'PNG', 10, 10, 195, 50);
+                    doc.save((ChartName != undefined ? ChartName : 'Download') + '.pdf');
+                    hideload();
+                    return;
+                } else if (Dtype == 'PNG') {
+                    img = canvas.toDataURL("image/png")
+                    hideload();
+                } else if (Dtype == 'JPEG') {
+                    img = canvas.toDataURL("image/jpeg")
+                    hideload();
+                }
+
+                var link = document.createElement('a');
+                if (typeof link.download === 'string') {
+                    document.body.appendChild(link); // Firefox requires the link to be in the body
+                    link.download = (ChartName != undefined ? ChartName : 'Download');
+                    link.href = img;
+                    link.click();
+                    document.body.removeChild(link); // remove the link when done
+                    hideload();
+                }
+            });
+
+        });
+        function getCanvasfromClass(className) {
+
+            var svgElements = $(className).find('svg');
+            svgElements.each(function () {
+                var canvas, xml;
+                $.each($(this).find('[style*=em]'), function (index, el) {
+                    $(this).css('font-size', getStyle(el, 'font-size'));
+                });
+
+                canvas = document.createElement("canvas");
+                canvas.className = "screenShotTempCanvas";
+                xml = (new XMLSerializer()).serializeToString(this);
+                xml = xml.replace(/xmlns=\"http:\/\/www\.w3\.org\/2000\/svg\"/, '');
+                canvg(canvas, xml);
+                $(canvas).insertAfter(this);
+
+                $(this).attr('class', 'tempHide');
+                $(this).hide();
+            });
+
+            $('.chart-header-right').hide();
+            var r = html2canvas($(className), {
+                imageTimeout: 0,
+                removeContainer: true
+            });
+            $('.chart-header-right').show();
+            return r;
+        }
+
+        function getStyle(el, styleProp) {
+            var camelize = function (str) {
+                return str.replace(/\-(\w)/g, function (str, letter) {
+                    return letter.toUpperCase();
+                });
+            };
+
+            if (el.currentStyle) {
+                return el.currentStyle[camelize(styleProp)];
+            } else if (document.defaultView && document.defaultView.getComputedStyle) {
+                return document.defaultView.getComputedStyle(el, null)
+                  .getPropertyValue(styleProp);
+            } else {
+                return el.style[camelize(styleProp)];
+            }
+        }
+
+
+    });
+
+</script>
+
